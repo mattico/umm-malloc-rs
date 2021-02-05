@@ -1,0 +1,3 @@
+[submodule "umm-malloc-sys/umm_malloc"]
+	path = umm-malloc-sys/umm_malloc
+	url = https://github.com/mattico/umm_malloc
