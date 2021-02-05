@@ -1,0 +1,20 @@
+[package]
+name = "umm-malloc-sys"
+version = "0.1.0"
+authors = ["Ralph Hempel", "Matt Ickstadt <mattico8@gmail.com>"]
+edition = "2018"
+categories = ["embedded", "no-std", "external-ffi-bindings"]
+
+[build-dependencies]
+bindgen = "0.56"
+cc = { version = "1" }
+
+[features]
+# see umm_malloc_cfg.h
+
+# Add critical sections around allocator internals. You must supply the 
+# _umm_critical_entry() and _umm_critical_exit() functions.
+sync = []
+# Use the first available block for allocation
+first-fit = []
+

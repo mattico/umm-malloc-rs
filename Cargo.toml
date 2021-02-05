@@ -1,0 +1,24 @@
+[package]
+name = "umm-malloc"
+version = "0.1.0"
+authors = ["Ralph Hempel", "Matt Ickstadt <mattico8@gmail.com>"]
+edition = "2018"
+license = "MIT"
+categories = ["embedded", "no-std", "api-bindings"]
+
+[dev-dependencies]
+cortex-m-rt = "0.6"
+
+[dependencies.umm-malloc-sys]
+path = "umm-malloc-sys"
+version = "0.1.0"
+
+[dependencies.cortex-m]
+version = "0.7.1"
+optional = true
+
+[features]
+# Enables critical sections around the allocator internals, which must be implemented
+# with external functions `_umm_critical_entry` and `_umm_critical_exit`.
+# If `cortex-m` is also enabled, implementations of those will be supplied.
+sync = ["umm-malloc-sys/sync"]
