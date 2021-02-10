@@ -25,6 +25,7 @@ use umm_malloc_sys as ffi;
 ///
 /// - This function must be called exactly ONCE.
 /// - `size > 0`
+#[inline]
 pub unsafe fn init(start_addr: usize, size: usize) {
     ffi::umm_init(start_addr as *mut _, size)
 }
@@ -35,14 +36,17 @@ struct UmmHeap {}
 static ALLOCATOR: UmmHeap = UmmHeap {};
 
 unsafe impl core::alloc::GlobalAlloc for UmmHeap {
+    #[inline]
     unsafe fn alloc(&self, layout: core::alloc::Layout) -> *mut u8 {
         ffi::umm_malloc(layout.size()).cast()
     }
 
+    #[inline]
     unsafe fn dealloc(&self, ptr: *mut u8, _layout: core::alloc::Layout) {
         ffi::umm_free(ptr.cast());
     }
 
+    #[inline]
     unsafe fn realloc(&self, ptr: *mut u8, _layout: core::alloc::Layout, new_size: usize) -> *mut u8 {
         // TODO: verify alignment
         ffi::umm_realloc(ptr.cast(), new_size).cast()
