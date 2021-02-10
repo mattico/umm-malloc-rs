@@ -1,5 +1,14 @@
 #![no_std]
 
+//! Provides a global allocator using the [UMM Malloc][0] library.
+//! You must call [`umm_malloc::init()`](fn@init) exactly once
+//! before allocating anything using the global memory allocator.
+//!
+//! All allocations form this allocator are aligned by 8 bytes.
+//! Requesting a larger alignment is not implemented and will panic.
+//!
+//! [0]: https://github.com/rhempel/umm_malloc
+
 use umm_malloc_sys as ffi;
 
 /// Initializes the heap
@@ -35,10 +44,20 @@ struct UmmHeap {}
 #[global_allocator]
 static ALLOCATOR: UmmHeap = UmmHeap {};
 
+/// All allocations from this allocator are aligned to `MIN_ALIGN`.
+/// Alignments larger than `MIN_ALIGN` are currently not supported.
+/// Calling `alloc()` or `realloc()` with a `layout` requesting a larger
+/// alignment will panic.
+pub const MIN_ALIGN: usize = 8;
+
 unsafe impl core::alloc::GlobalAlloc for UmmHeap {
     #[inline]
     unsafe fn alloc(&self, layout: core::alloc::Layout) -> *mut u8 {
-        ffi::umm_malloc(layout.size()).cast()
+        if layout.align() <= MIN_ALIGN {
+            ffi::umm_malloc(layout.size()).cast()
+        } else {
+            unimplemented!("Aligned alloc not implemented");
+        }
     }
 
     #[inline]
@@ -47,9 +66,14 @@ unsafe impl core::alloc::GlobalAlloc for UmmHeap {
     }
 
     #[inline]
-    unsafe fn realloc(&self, ptr: *mut u8, _layout: core::alloc::Layout, new_size: usize) -> *mut u8 {
-        // TODO: verify alignment
-        ffi::umm_realloc(ptr.cast(), new_size).cast()
+    // The contract of realloc requires `new_size` to be greater than zero. This method will
+    // `free()` and return `null`.
+    unsafe fn realloc(&self, ptr: *mut u8, layout: core::alloc::Layout, new_size: usize) -> *mut u8 {
+        if layout.size() <= MIN_ALIGN {
+            ffi::umm_realloc(ptr.cast(), new_size).cast()
+        } else {
+            unimplemented!("Aligned alloc not implemented");
+        }
     }
 
     // umm_calloc doesn't do anything special
@@ -81,6 +105,3 @@ mod cortex_m_sync {
         }        
     }
 }
-
-
-
