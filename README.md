@@ -15,6 +15,19 @@ It is able to allocate and free quickly with limited memory fragmentation.
 All allocations from this allocator are aligned by 8 bytes.
 Requesting a larger alignment is not implemented and will panic.
 
+## Features
+
+- `sync`
+  Enables critical sections around the allocator internals, which must be implemented
+  with the external functions `_umm_critical_entry()` and `_umm_critical_exit()`.
+
+- `cortex-m`
+  When combined with `sync`, provides an implementation of critical sections
+  by disabling interrupts.
+
+- `first-fit`
+  Use the first available block for allocation, rather than search for a better fit.
+
 ## Future Work
 
 `umm_malloc` has features for collecting metrics and detecting heap corruption, 
