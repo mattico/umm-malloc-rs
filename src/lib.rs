@@ -4,7 +4,7 @@
 //! You must call [`umm_malloc::init()`](fn@init) exactly once
 //! before allocating anything using the global memory allocator.
 //!
-//! All allocations form this allocator are aligned by 8 bytes.
+//! All allocations from this allocator are aligned by 8 bytes.
 //! Requesting a larger alignment is not implemented and will panic.
 //!
 //! [0]: https://github.com/rhempel/umm_malloc
