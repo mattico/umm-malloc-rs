@@ -5,7 +5,9 @@ authors = ["Ralph Hempel", "Matt Ickstadt <mattico8@gmail.com>"]
 license = "MIT"
 edition = "2018"
 categories = ["embedded", "no-std", "external-ffi-bindings"]
+keywords = ["allocator", "arm", "cortex-m", "malloc"]
 description = "FFI bindings to the umm_malloc memory allocator."
+repository = "https://github.com/mattico/umm-malloc-rs"
 
 [build-dependencies]
 bindgen = "0.56"

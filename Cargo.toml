@@ -2,10 +2,12 @@
 name = "umm-malloc"
 version = "0.1.0"
 authors = ["Ralph Hempel", "Matt Ickstadt <mattico8@gmail.com>"]
-edition = "2018"
 license = "MIT"
+edition = "2018"
 categories = ["embedded", "no-std", "api-bindings"]
+keywords = ["allocator", "arm", "cortex-m", "malloc"]
 description = "A global allocator implementation for embedded systems using the umm_malloc library."
+repository = "https://github.com/mattico/umm-malloc-rs"
 
 [dev-dependencies]
 cortex-m-rt = "0.6"
@@ -20,8 +22,8 @@ optional = true
 
 [features]
 # Enables critical sections around the allocator internals, which must be implemented
-# with external functions `_umm_critical_entry` and `_umm_critical_exit`.
-# If `cortex-m` is also enabled, implementations of those will be supplied.
+# with the external functions `_umm_critical_entry` and `_umm_critical_exit`.
+# If `cortex-m` is also enabled, implementations of those functions will be supplied.
 sync = ["umm-malloc-sys/sync"]
 
 # Use the first available block for allocation, rather than search for a better fit.
