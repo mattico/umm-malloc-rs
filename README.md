@@ -7,12 +7,12 @@
 
 Provides a global allocator using the [umm_malloc][0] library.
 
-`umm_malloc` is a small and simple malloc designed for embedded systems.
+`umm_malloc` is a small and simple memory allocator designed for embedded systems.
 It is able to allocate and free quickly with limited memory fragmentation.
 
 ## Limitations
 
-All allocations form this allocator are aligned by 8 bytes.
+All allocations from this allocator are aligned by 8 bytes.
 Requesting a larger alignment is not implemented and will panic.
 
 ## Future Work
