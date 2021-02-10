@@ -1,0 +1,40 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "cargo",
+			"command": "check",
+			"args": ["--target=thumbv7em-none-eabihf"],
+			"problemMatcher": ["$rustc"],
+			"group": {
+				"isDefault": true,
+				"kind": "build"
+			},
+			"label": "rust: cargo check"
+		},
+		{
+			"type": "cargo",
+			"command": "build",
+			"args": ["--target=thumbv7em-none-eabihf"],
+			"problemMatcher": ["$rustc"],
+			"group": "build",
+			"label": "rust: cargo build"
+		},
+		{
+			"type": "cargo",
+			"command": "build",
+			"args": ["--target=thumbv7em-none-eabihf", "--release"],
+			"problemMatcher": ["$rustc"],
+			"group": "build",
+			"label": "rust: cargo build release"
+		},
+		{
+			"type": "cargo",
+			"command": "clean",
+			"args": ["--target=thumbv7em-none-eabihf"],
+			"problemMatcher": ["$rustc"],
+			"group": "build",
+			"label": "rust: cargo clean"
+		}
+	]
+}
