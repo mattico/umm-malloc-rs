@@ -22,3 +22,6 @@ optional = true
 # with external functions `_umm_critical_entry` and `_umm_critical_exit`.
 # If `cortex-m` is also enabled, implementations of those will be supplied.
 sync = ["umm-malloc-sys/sync"]
+
+# Use the first available block for allocation, rather than search for a better fit.
+first-fit = ["umm-malloc-sys/first-fit"]
