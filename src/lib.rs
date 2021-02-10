@@ -69,7 +69,7 @@ unsafe impl core::alloc::GlobalAlloc for UmmHeap {
     // The contract of realloc requires `new_size` to be greater than zero. This method will
     // `free()` and return `null`.
     unsafe fn realloc(&self, ptr: *mut u8, layout: core::alloc::Layout, new_size: usize) -> *mut u8 {
-        if layout.size() <= MIN_ALIGN {
+        if layout.align() <= MIN_ALIGN {
             ffi::umm_realloc(ptr.cast(), new_size).cast()
         } else {
             unimplemented!("Aligned alloc not implemented");
