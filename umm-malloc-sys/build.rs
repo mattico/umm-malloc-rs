@@ -20,8 +20,9 @@ fn main() {
         .generate()
         .expect("Unable to generate bindings");
 
+    let out_path = std::path::PathBuf::from(env::var("OUT_DIR").unwrap());
     bindings
-        .write_to_file("src/bindings.rs")
+        .write_to_file(out_path.join("bindings.rs"))
         .expect("Couldn't write bindings!");
 
     // Build library
