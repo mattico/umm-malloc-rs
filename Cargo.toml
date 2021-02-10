@@ -5,6 +5,7 @@ authors = ["Ralph Hempel", "Matt Ickstadt <mattico8@gmail.com>"]
 edition = "2018"
 license = "MIT"
 categories = ["embedded", "no-std", "api-bindings"]
+description = "A global allocator implementation for embedded systems using the umm_malloc library."
 
 [dev-dependencies]
 cortex-m-rt = "0.6"

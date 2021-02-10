@@ -2,8 +2,10 @@
 name = "umm-malloc-sys"
 version = "0.1.0"
 authors = ["Ralph Hempel", "Matt Ickstadt <mattico8@gmail.com>"]
+license = "MIT"
 edition = "2018"
 categories = ["embedded", "no-std", "external-ffi-bindings"]
+description = "FFI bindings to the umm_malloc memory allocator."
 
 [build-dependencies]
 bindgen = "0.56"

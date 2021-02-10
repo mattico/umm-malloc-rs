@@ -1,6 +1,6 @@
 #![no_std]
 
-//! Provides a global allocator using the [UMM Malloc][0] library.
+//! Provides a global allocator using the [umm_malloc][0] library.
 //! You must call [`umm_malloc::init()`](fn@init) exactly once
 //! before allocating anything using the global memory allocator.
 //!
