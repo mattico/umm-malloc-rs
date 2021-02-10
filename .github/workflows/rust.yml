@@ -16,6 +16,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+      with:
+        submodules: true
     - name: Install Rust targets
       run: rustup +stable target add thumbv7em-none-eabihf
     - name: Build
