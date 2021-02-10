@@ -1,5 +1,10 @@
 # umm-malloc-rs
 
+[![downloads](https://img.shields.io/crates/d/umm-malloc.svg)](https://crates.io/crates/umm-malloc)
+[![crates.io](https://img.shields.io/crates/v/umm-malloc.svg)](https://crates.io/crates/umm-malloc)
+[![docs.rs](https://docs.rs/umm-malloc/badge.svg)](https://docs.rs/umm-malloc)
+![CI](https://github.com/mattico/umm-malloc-rs/workflows/Rust/badge.svg)
+
 Provides a global allocator using the [umm_malloc][0] library.
 
 `umm_malloc` is a small and simple malloc designed for embedded systems.
