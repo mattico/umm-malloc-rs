@@ -1,4 +1,4 @@
-FFI bindings to the [umm_malloc][0] memory allocator. Based on umm_malloc commit `2ac01b9`.
+FFI bindings to the [umm_malloc][0] memory allocator. Based on umm_malloc release v1.1.0.
 
 See [umm-malloc][1] for rustified bindings.
 

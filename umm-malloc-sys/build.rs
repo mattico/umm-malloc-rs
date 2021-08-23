@@ -5,16 +5,18 @@ fn main() {
     // Generate bindings
 
     let bindings = bindgen::Builder::default()
-        .header("umm_malloc/src/umm_malloc.h")
-        .whitelist_function("umm_init")
-        .whitelist_function("umm_malloc")
-        .whitelist_function("umm_free")
-        .whitelist_function("umm_calloc")
-        .whitelist_function("umm_realloc")
+        .header("src/bindings.h")
+        .allowlist_function("umm_init")
+        .allowlist_function("umm_init_heap")
+        .allowlist_function("umm_malloc")
+        .allowlist_function("umm_free")
+        .allowlist_function("umm_calloc")
+        .allowlist_function("umm_realloc")
         .use_core()
         .rustfmt_bindings(true)
         .layout_tests(false)
         .size_t_is_usize(true)
+        .clang_arg("-Iumm_malloc/src")
         .clang_arg("-Iumm_malloc/test/support")
         .parse_callbacks(Box::new(bindgen::CargoCallbacks))
         .generate()
@@ -27,18 +29,6 @@ fn main() {
 
     // Build library
 
-    let cfg_fit= if env::var("CARGO_FEATURE_FIRST_FIT").is_ok() {
-        "FIRST_FIT"
-    } else {
-        "BEST_FIT"
-    };
-
-    let cfg_sync = if env::var("CARGO_FEATURE_SYNC").is_ok() {
-        "UMM_EXTERN_CRITICAL_FNS"
-    } else {
-        "UMM_NO_EXTERN_CRITICAL_FNS"
-    };
-
     let sources = [
         "umm_malloc/src/umm_malloc.c",
         "umm_malloc/src/umm_info.c",
@@ -49,15 +39,28 @@ fn main() {
     for source in &sources {
         println!("cargo:rerun-if-changed={}", source);
     }
+    println!("cargo:rerun-if-changed=src/umm_malloc_cfgport.h");
 
-    cc::Build::new()
+    let mut build = cc::Build::new();
+    build
         .static_flag(true)
         .flag("-nostdlib")
         .flag("-ffreestanding")
+        .include("src") // For umm_malloc_cfgport.h
         .include("umm_malloc/test/support")
-        .define(cfg_fit, None)
-        .define(cfg_sync, None)
-        .define("DBGLOG_FUNCTION", None)
-        .files(&sources)
-        .compile("libumm_malloc_c.a");
+        .files(&sources);
+
+    if env::var("CARGO_FEATURE_HANG_IF_UNINITIALIZED").is_ok()
+        && env::var("CARGO_FEATURE_INIT_IF_UNINITIALIZED").is_ok()
+    {
+        panic!("Can only enable one of the cargo features `init-if-uninitialized` and `hang-if-uninitialized`");
+    }
+
+    env::vars()
+        .filter(|(key, _)| key.starts_with("CARGO_FEATURE_"))
+        .for_each(|(key, _)| {
+            build.define(&key, None);
+        });
+
+    build.compile("libumm_malloc_c.a");
 }

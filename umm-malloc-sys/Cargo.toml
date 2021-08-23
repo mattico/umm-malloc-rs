@@ -8,17 +8,25 @@ categories = ["embedded", "no-std", "external-ffi-bindings"]
 keywords = ["allocator", "arm", "cortex-m", "malloc"]
 description = "FFI bindings to the umm_malloc memory allocator."
 repository = "https://github.com/mattico/umm-malloc-rs"
+links = "umm_malloc"
 
 [build-dependencies]
-bindgen = "0.56"
+bindgen = "0.59.1"
 cc = { version = "1" }
 
 [features]
-# see umm_malloc_cfg.h
+# See umm_malloc_cfg.h and umm_malloc_cfgport.h
 
-# Add critical sections around allocator internals. You must supply the 
-# _umm_critical_entry() and _umm_critical_exit() functions.
-sync = []
+# Add critical sections around allocator internals. You must supply the _umm_critical_entry() and _umm_critical_exit() 
+# functions to implement them.
+extern-critical-section = []
 
 # Use the first available block for allocation, rather than search for a better fit.
 first-fit = []
+
+# Every umm_malloc function checks if the heap is initialized. If the heap is not initialized, it tries to initialize it
+# with UMM_MALLOC_CFG_HEAP_ADDR and UMM_MALLOC_CFG_HEAP_SIZE.
+init-if-uninitialized = []
+
+# Every umm_malloc function checks if the heap is initialized. If the heap is not initialized, it loops forever.
+hang-if-uninitialized = []

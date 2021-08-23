@@ -1,3 +1,5 @@
 {
-    "rust-analyzer.cargo.features": ["cortex-m", "sync"],
+    "rust-analyzer.cargo.features": [
+        "cortex-m",
+    ]
 }
