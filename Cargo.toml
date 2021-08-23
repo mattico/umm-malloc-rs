@@ -1,6 +1,6 @@
 [package]
 name = "umm-malloc"
-version = "0.1.2"
+version = "0.2.0"
 authors = ["Ralph Hempel", "Matt Ickstadt <mattico8@gmail.com>"]
 license = "MIT"
 edition = "2018"
@@ -18,7 +18,7 @@ cortex-m-rt = "0.7"
 
 [dependencies.umm-malloc-sys]
 path = "umm-malloc-sys"
-version = "0.1.0"
+version = "0.2.0"
 
 [dependencies.cortex-m]
 version = ">=0.6.13,<0.8"
