@@ -20,10 +20,6 @@ cortex-m-rt = "0.7"
 path = "umm-malloc-sys"
 version = "0.2.0"
 
-[dependencies.cortex-m]
-version = ">=0.6.13,<0.8"
-optional = true
-
 [features]
 # Disables critical sections around the global allocator. You MUST ensure the global allocator is not accessed
 # concurrently through some other means.
@@ -32,6 +28,9 @@ unsafe-no-critical-section = []
 # Uses the extern functions `_umm_critical_entry()` and `_umm_critical_exit()` to implement the global allocator
 # critical sections. You MUST supply those functions via some other means. Note that critical sections may nest.
 extern-critical-section = ["umm-malloc-sys/extern-critical-section"]
+
+# Add critical sections around allocator internals, by disabling and re-enabling interrupts when necessary.
+cortex-m-interrupt-critical-section = ["umm-malloc-sys/cortex-m-interrupt-critical-section"]
 
 # Use the first available block for allocation, rather than search for a better fit.
 first-fit = ["umm-malloc-sys/first-fit"]

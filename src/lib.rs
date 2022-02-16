@@ -34,8 +34,7 @@ use umm_malloc_sys as ffi;
 /// # Note
 ///
 /// - The heap grows "upwards", towards larger addresses. Thus `end_addr` must
-///   be larger than `start_addr`
-///
+///   be larger than `start_addr`.
 /// - The size of the heap is `(end_addr as usize) - (start_addr as usize)`. The
 ///   allocator won't use the byte at `end_addr`.
 ///
@@ -60,10 +59,10 @@ pub unsafe fn init() {
 /// # Note
 ///
 /// - The heap grows "upwards", towards larger addresses. Thus `end_addr` must
-///   be larger than `start_addr`
-///
+///   be larger than `start_addr`.
 /// - The size of the heap is `(end_addr as usize) - (start_addr as usize)`. The
 ///   allocator won't use the byte at `end_addr`.
+/// - This memory will be zeroed by the allocator.
 ///
 /// # Safety
 ///
@@ -93,9 +92,7 @@ unsafe impl core::alloc::GlobalAlloc for UmmHeap {
     #[inline]
     unsafe fn alloc(&self, layout: core::alloc::Layout) -> *mut u8 {
         if layout.align() <= MIN_ALIGN {
-            critical_section(|| {
-                ffi::umm_malloc(layout.size()).cast()
-            })
+            ffi::umm_malloc(layout.size()).cast()
         } else {
             unimplemented!("Aligned alloc not implemented");
         }
@@ -103,9 +100,7 @@ unsafe impl core::alloc::GlobalAlloc for UmmHeap {
 
     #[inline]
     unsafe fn dealloc(&self, ptr: *mut u8, _layout: core::alloc::Layout) {
-        critical_section(|| {
-            ffi::umm_free(ptr.cast());
-        });
+        ffi::umm_free(ptr.cast());
     }
 
     #[inline]
@@ -113,9 +108,7 @@ unsafe impl core::alloc::GlobalAlloc for UmmHeap {
     // `free()` and return `null`.
     unsafe fn realloc(&self, ptr: *mut u8, layout: core::alloc::Layout, new_size: usize) -> *mut u8 {
         if layout.align() <= MIN_ALIGN {
-            critical_section(|| {
-                ffi::umm_realloc(ptr.cast(), new_size).cast()
-            })
+            ffi::umm_realloc(ptr.cast(), new_size).cast()
         } else {
             unimplemented!("Aligned alloc not implemented");
         }
@@ -124,34 +117,12 @@ unsafe impl core::alloc::GlobalAlloc for UmmHeap {
     // umm_calloc doesn't do anything special
 }
 
-#[cfg(feature = "cortex-m")]
-fn critical_section<T>(f: impl Fn() -> T) -> T {
-    #[cfg(any(feature = "unsafe-no-critical-section", feature = "extern-critical-section"))]
-    compile_error!("Only enable one critical section cargo feature");
+#[cfg(any(
+    all(feature = "cortex-m-interrupt-critical-section", any(feature = "unsafe-no-critical-section", feature = "extern-critical-section")),
+    all(feature = "unsafe-no-critical-section", any(feature = "cortex-m-interrupt-critical-section", feature = "extern-critical-section")),
+    all(feature = "extern-critical-section", any(feature = "cortex-m-interrupt-critical-section", feature = "unsafe-no-critical-section")),
+))]
+compile_error!("Only enable one critical section cargo feature");
 
-    cortex_m::interrupt::free(|_| {
-        f()
-    })
-}
-
-#[cfg(feature = "unsafe-no-critical-section")]
-fn critical_section<T>(f: impl Fn() -> T) -> T {
-    #[cfg(any(feature = "cortex-m", feature = "extern-critical-section"))]
-    compile_error!("Only enable one critical section cargo feature");
-
-    f()
-}
-
-#[cfg(feature = "extern-critical-section")]
-fn critical_section<T>(f: impl Fn() -> T) -> T {
-    #[cfg(any(feature = "cortex-m", feature = "unsafe-no-critical-section"))]
-    compile_error!("Only enable one critical section cargo feature");
-
-    f()
-}
-
-#[cfg(not(any(feature = "cortex-m", feature = "extern-critical-section", feature = "unsafe-no-critical-section")))]
-fn critical_section<T>(f: impl Fn() -> T) -> T {
-    compile_error!("A critical section cargo feature must be enabled");
-    unreachable!();
-}
+#[cfg(not(any(feature = "cortex-m-interrupt-critical-section", feature = "extern-critical-section", feature = "unsafe-no-critical-section")))]
+compile_error!("A critical section cargo feature must be enabled");

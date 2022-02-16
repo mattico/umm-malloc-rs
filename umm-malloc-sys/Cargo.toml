@@ -21,6 +21,9 @@ cc = { version = "1" }
 # functions to implement them.
 extern-critical-section = []
 
+# Add critical sections around allocator internals, by disabling and re-enabling interrupts when necessary.
+cortex-m-interrupt-critical-section = []
+
 # Use the first available block for allocation, rather than search for a better fit.
 first-fit = []
 
