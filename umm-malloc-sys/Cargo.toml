@@ -10,6 +10,16 @@ description = "FFI bindings to the umm_malloc memory allocator."
 repository = "https://github.com/mattico/umm-malloc-rs"
 links = "umm_malloc"
 
+exclude = [
+    "umm_malloc/test",
+    "umm_malloc/.github",
+    "umm_malloc/ceedling.cmd",
+    "umm_malloc/uncrustify.cfg",
+    "umm_malloc/multitest.sh",
+    "umm_malloc/project.yml",
+    "umm_malloc/.git*",
+]
+
 [build-dependencies]
 bindgen = "0.59.1"
 cc = { version = "1" }
