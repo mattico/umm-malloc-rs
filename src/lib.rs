@@ -12,9 +12,10 @@
 //! Concurrent access to the global allocator is Undefined Behavior. Enable only one of the following cargo features to
 //! configure how access to the global allocator is controlled.
 //!
-//! - `cortex-m`: interrupt-disabled critical section for ARM Cortex-M processors.
-//! - `extern-critical-section`: Uses the extern functions `_umm_critical_entry()` and `_umm_critical_exit()` to
-//!   implement the global allocator critical sections. You MUST supply those functions via some other means.
+//! - `cortex-m-interrupt-critical-section`: interrupt-disabled critical section for ARM Cortex-M processors.
+//! - `extern-critical-section`: Uses the extern functions `void _umm_critical_entry(uint32_t*)` and
+//!   `void _umm_critical_exit(uint32_t*)` to implement the global allocator critical sections. You MUST supply those
+//!   functions via some other means.
 //!   Note that critical sections may nest.
 //! - `unsafe-no-critical-section`: no critical sections around the global allocator. You MUST prevent concurrent use
 //!   of the global allcator to avoid Undefined Behavior.
