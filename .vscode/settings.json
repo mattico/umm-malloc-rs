@@ -1,6 +1,15 @@
 {
+    "rust-analyzer.checkOnSave.target": "thumbv7em-none-eabihf",
     "rust-analyzer.cargo.target": "thumbv7em-none-eabihf",
     "rust-analyzer.cargo.features": [
         "cortex-m-interrupt-critical-section",
-    ]
+    ],
+    "[rust]": {
+        "editor.formatOnSave": true,
+    },
+    "files.watcherExclude": {
+        "**/.git/objects/**": true,
+        "**/.git/subtree-cache/**": true,
+        "**/target/**": true
+    }
 }

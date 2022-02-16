@@ -1,8 +1,10 @@
 #![no_std]
-
 #![doc = include_str!("../README.md")]
 
-#[cfg(all(feature = "extern-critical-section", feature = "cortex-m-interrupt-critical-section"))]
+#[cfg(all(
+    feature = "extern-critical-section",
+    feature = "cortex-m-interrupt-critical-section"
+))]
 compile_error!("Choose only one critical section implementation");
 
 use core::ffi::c_void;

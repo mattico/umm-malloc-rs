@@ -5,10 +5,10 @@
 extern crate alloc;
 
 use alloc::vec::Vec;
-use umm_malloc;
 use core::alloc::Layout;
 use core::panic::PanicInfo;
 use cortex_m_rt::entry;
+use umm_malloc;
 
 #[entry]
 fn main() -> ! {

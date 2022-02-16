@@ -107,7 +107,12 @@ unsafe impl core::alloc::GlobalAlloc for UmmHeap {
     #[inline]
     // The contract of realloc requires `new_size` to be greater than zero. This method will
     // `free()` and return `null`.
-    unsafe fn realloc(&self, ptr: *mut u8, layout: core::alloc::Layout, new_size: usize) -> *mut u8 {
+    unsafe fn realloc(
+        &self,
+        ptr: *mut u8,
+        layout: core::alloc::Layout,
+        new_size: usize,
+    ) -> *mut u8 {
         if layout.align() <= MIN_ALIGN {
             ffi::umm_realloc(ptr.cast(), new_size).cast()
         } else {
@@ -119,11 +124,33 @@ unsafe impl core::alloc::GlobalAlloc for UmmHeap {
 }
 
 #[cfg(any(
-    all(feature = "cortex-m-interrupt-critical-section", any(feature = "unsafe-no-critical-section", feature = "extern-critical-section")),
-    all(feature = "unsafe-no-critical-section", any(feature = "cortex-m-interrupt-critical-section", feature = "extern-critical-section")),
-    all(feature = "extern-critical-section", any(feature = "cortex-m-interrupt-critical-section", feature = "unsafe-no-critical-section")),
+    all(
+        feature = "cortex-m-interrupt-critical-section",
+        any(
+            feature = "unsafe-no-critical-section",
+            feature = "extern-critical-section"
+        )
+    ),
+    all(
+        feature = "unsafe-no-critical-section",
+        any(
+            feature = "cortex-m-interrupt-critical-section",
+            feature = "extern-critical-section"
+        )
+    ),
+    all(
+        feature = "extern-critical-section",
+        any(
+            feature = "cortex-m-interrupt-critical-section",
+            feature = "unsafe-no-critical-section"
+        )
+    ),
 ))]
 compile_error!("Only enable one critical section cargo feature");
 
-#[cfg(not(any(feature = "cortex-m-interrupt-critical-section", feature = "extern-critical-section", feature = "unsafe-no-critical-section")))]
+#[cfg(not(any(
+    feature = "cortex-m-interrupt-critical-section",
+    feature = "extern-critical-section",
+    feature = "unsafe-no-critical-section"
+)))]
 compile_error!("A critical section cargo feature must be enabled");
