@@ -1,6 +1,6 @@
 [package]
 name = "umm-malloc"
-version = "0.2.0"
+version = "0.3.0"
 authors = ["Ralph Hempel", "Matt Ickstadt <mattico8@gmail.com>"]
 license = "MIT"
 edition = "2018"
@@ -18,7 +18,7 @@ cortex-m-rt = "0.7"
 
 [dependencies.umm-malloc-sys]
 path = "umm-malloc-sys"
-version = "0.2.0"
+version = "0.3.0"
 
 [features]
 # Disables critical sections around the global allocator. You MUST ensure the global allocator is not accessed
