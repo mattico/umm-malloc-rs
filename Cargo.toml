@@ -8,10 +8,15 @@ categories = ["embedded", "no-std", "api-bindings"]
 keywords = ["allocator", "arm", "cortex-m", "malloc"]
 description = "A global allocator implementation for embedded systems using the umm_malloc library."
 repository = "https://github.com/mattico/umm-malloc-rs"
+readme = "README.md"
 exclude = [
     ".vscode/*",
     ".github/*",
 ]
+
+[package.metadata.docs.rs]
+features = ["unsafe-no-critical-section"]
+targets = ["thumbv7em-none-eabihf"]
 
 [dev-dependencies]
 cortex-m-rt = "0.7"

@@ -2,30 +2,9 @@ use cc;
 use std::env;
 
 fn main() {
-    // Generate bindings
-
-    let bindings = bindgen::Builder::default()
-        .header("src/bindings.h")
-        .allowlist_function("umm_init")
-        .allowlist_function("umm_init_heap")
-        .allowlist_function("umm_malloc")
-        .allowlist_function("umm_free")
-        .allowlist_function("umm_calloc")
-        .allowlist_function("umm_realloc")
-        .use_core()
-        .rustfmt_bindings(true)
-        .layout_tests(false)
-        .size_t_is_usize(true)
-        .clang_arg("-Iumm_malloc/src")
-        .clang_arg("-Iumm_malloc/test/support")
-        .parse_callbacks(Box::new(bindgen::CargoCallbacks))
-        .generate()
-        .expect("Unable to generate bindings");
-
-    let out_path = std::path::PathBuf::from(env::var("OUT_DIR").unwrap());
-    bindings
-        .write_to_file(out_path.join("bindings.rs"))
-        .expect("Couldn't write bindings!");
+    if std::env::var("DOCS_RS").is_ok() {
+        return;
+    }
 
     // Build library
 

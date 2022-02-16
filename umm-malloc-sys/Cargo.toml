@@ -9,6 +9,8 @@ keywords = ["allocator", "arm", "cortex-m", "malloc"]
 description = "FFI bindings to the umm_malloc memory allocator."
 repository = "https://github.com/mattico/umm-malloc-rs"
 links = "umm_malloc"
+readme = "README.md"
+build = "build.rs"
 
 exclude = [
     "umm_malloc/test",
@@ -20,9 +22,11 @@ exclude = [
     "umm_malloc/.git*",
 ]
 
+[package.metadata.docs.rs]
+targets = ["thumbv7em-none-eabihf"]
+
 [build-dependencies]
-bindgen = "0.59.1"
-cc = { version = "1" }
+cc = "1"
 
 [features]
 # See umm_malloc_cfg.h and umm_malloc_cfgport.h
