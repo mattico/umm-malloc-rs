@@ -4,7 +4,7 @@
 		{
 			"type": "cargo",
 			"command": "check",
-			"args": ["--target=thumbv7em-none-eabihf"],
+			"args": ["--target=thumbv7em-none-eabihf", "--features=cortex-m"],
 			"problemMatcher": ["$rustc"],
 			"group": {
 				"isDefault": true,
@@ -15,7 +15,7 @@
 		{
 			"type": "cargo",
 			"command": "build",
-			"args": ["--target=thumbv7em-none-eabihf"],
+			"args": ["--target=thumbv7em-none-eabihf", "--features=cortex-m"],
 			"problemMatcher": ["$rustc"],
 			"group": "build",
 			"label": "rust: cargo build"
@@ -23,7 +23,7 @@
 		{
 			"type": "cargo",
 			"command": "build",
-			"args": ["--target=thumbv7em-none-eabihf", "--release"],
+			"args": ["--target=thumbv7em-none-eabihf", "--features=cortex-m", "--release"],
 			"problemMatcher": ["$rustc"],
 			"group": "build",
 			"label": "rust: cargo build release"

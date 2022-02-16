@@ -1,4 +1,5 @@
 {
+    "rust-analyzer.cargo.target": "thumbv7em-none-eabihf",
     "rust-analyzer.cargo.features": [
         "cortex-m",
     ]
