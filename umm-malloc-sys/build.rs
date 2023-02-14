@@ -20,7 +20,14 @@ fn main() {
     }
     println!("cargo:rerun-if-changed=src/umm_malloc_cfgport.h");
 
+    // Rebuild if enable-pie feature changes
+    println!("cargo:rerun-if-env-changed=CARGO_FEATURE_ENABLE_PIE");
     let mut build = cc::Build::new();
+
+    // If enable-pie feature enabled, compile it position indipendent (:
+    if env::var("CARGO_FEATURE_ENABLE_PIE").is_ok() {
+        build.flag("-fPIE");
+    }
     build
         .static_flag(true)
         .flag("-nostdlib")

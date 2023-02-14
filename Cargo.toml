@@ -46,3 +46,6 @@ init-if-uninitialized = ["umm-malloc-sys/init-if-uninitialized"]
 
 # Every umm_malloc function checks if the heap is initialized. If the heap is not initialized, it loops forever.
 hang-if-uninitialized = ["umm-malloc-sys/hang-if-uninitialized"]
+
+# Compile umm_malloc position indipendent.
+enable-pie = ["umm-malloc-sys/enable-pie"]
