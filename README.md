@@ -27,6 +27,10 @@ Requesting a larger alignment is not implemented and will panic.
 - `hang-if-uninitialized`
   Adds checks to every malloc function which enters an infinite loop if the heap is not initialized.
 
+- `enable-pie`
+  Compiles the umm_malloc C code position independent (`-fPIE`).
+  You'll likely want to enable it for rustc also e.g. `-C relocation-model=pie`.
+
 ### Global Allocator Critical Sections
 
 Concurrent access to the global allocator is Undefined Behavior. Enable one of the following cargo features to configure

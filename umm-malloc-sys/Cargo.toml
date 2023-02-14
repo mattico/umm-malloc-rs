@@ -48,5 +48,6 @@ init-if-uninitialized = []
 # Every umm_malloc function checks if the heap is initialized. If the heap is not initialized, it loops forever.
 hang-if-uninitialized = []
 
-# Compile umm_malloc position indipendent.
+# Compile the umm_malloc C code position independent (-fPIE).
+# You'll likely want to enable it for rustc also e.g. `-C relocation-model=pie`.
 enable-pie = []

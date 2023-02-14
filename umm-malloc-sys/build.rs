@@ -24,7 +24,7 @@ fn main() {
     println!("cargo:rerun-if-env-changed=CARGO_FEATURE_ENABLE_PIE");
     let mut build = cc::Build::new();
 
-    // If enable-pie feature enabled, compile it position indipendent (:
+    // If enable-pie feature enabled, compile it position independent (:
     if env::var("CARGO_FEATURE_ENABLE_PIE").is_ok() {
         build.flag("-fPIE");
     }
